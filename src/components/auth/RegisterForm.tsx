@@ -41,6 +41,9 @@ function RegisterForm() {
     }
   })
 
+  const password = form.watch('password')
+  const confirmPassword = form.watch('confirmPassword')
+
   const onSubmit = (data: TRegisterProps) => {
     console.log(data)
   }
@@ -78,6 +81,28 @@ function RegisterForm() {
               </FormItem>
             )}
           />
+          {/* Role Field */}
+          <FormField
+            control={form.control}
+            name='role'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Account Type</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl className='w-full'>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select your Account Type' />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value='tenant'>Tenant</SelectItem>
+                    <SelectItem value='landlord'>Landlord</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           
           {/* Password Field */}
           <FormField
@@ -104,36 +129,19 @@ function RegisterForm() {
                 <FormControl>
                   <Input placeholder='Confirm Password' {...field} type="password" />
                 </FormControl>
+                {
+                  confirmPassword && password !== confirmPassword ? <FormMessage>Password does not match</FormMessage> : <FormMessage/>
+                }
                 <FormMessage />
               </FormItem>
             )}
           />
           
-          {/* Role Field */}
-          <FormField
-            control={form.control}
-            name='role'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Account Type</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder='Select your Account Type' />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value='tenant'>Tenant</SelectItem>
-                    <SelectItem value='landlord'>Landlord</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           
           {/* Submit Button */}
-          <Button type='submit'>Submit</Button>
+          <Button
+            disabled={confirmPassword && password !== confirmPassword ? true : false}
+            type='submit'>Submit</Button>
         </form>
       </Form>
 

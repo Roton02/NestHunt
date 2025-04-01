@@ -15,12 +15,19 @@ import Link from 'next/link'
 function LoginForm() {
   const form = useForm({
     defaultValues: {
-      Email: '',
-      Password: '',
+      userName : '',
+      email: '',
+      password: '',
     },
   })
-  const onSubmit = (data: { Email: string; Password: string }) => {
-    console.log(data)
+  const onSubmit = async (data: { userName: string; email: string; password: string }) => {
+    const login = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    console.log('first')
+    console.log(login)
   }
   return (
     <div>
@@ -28,7 +35,7 @@ function LoginForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
             control={form.control}
-            name='Email'
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -41,7 +48,7 @@ function LoginForm() {
           />
           <FormField
             control={form.control}
-            name='Password'
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
