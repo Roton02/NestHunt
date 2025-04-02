@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,6 +21,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import Link from 'next/link'
+import { registerUser } from '@/service/authService'
 
 function RegisterForm() {
   type TRegisterProps = {
@@ -33,20 +35,25 @@ function RegisterForm() {
   const form = useForm<TRegisterProps>({
     resolver: zodResolver(registerValidation),
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      username: "roton",
+      email: "roton1@gmail.com",
+      password: "12345678",
+      confirmPassword: "12345678",
       role: "tenant",
     }
   })
 
   const password = form.watch('password')
   const confirmPassword = form.watch('confirmPassword')
-
-  const onSubmit = (data: TRegisterProps) => {
+  const onSubmit = async (data: TRegisterProps) => {
+    try {
     console.log(data)
+    const response = await registerUser(data); // Call the function here
+    console.log(response);
+  } catch (err) {
+    console.error('Failed to register user', err);
   }
+};
 
   return (
     <div>
