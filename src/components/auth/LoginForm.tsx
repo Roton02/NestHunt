@@ -63,7 +63,7 @@ function LoginForm() {
         </form>
       </Form>
       <h1>
-        Do you have no account ' s {' '}
+        Do you have no accounts {' '}
         <Link href={'register'}>
           {' '}
           <span className='font-bold'>Register Now</span>{' '}
